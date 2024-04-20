@@ -1,34 +1,67 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+
+function fetchTodos() {
+  const result = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const value = localStorage.key(i);
+    result.push(value);
+  }
+  return result;
+}
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
+  const [inputText, setInputText] = useState('');
+  // const todos = fetchTodos();
+  const [todos, setTodos] = useState(fetchTodos());
+
+  const handleInput = (event) => {
+    const value = event.target.value;
+    setInputText(value);
+  };
+
+  const handleClick = () => {
+    console.log('clicked');
+    localStorage.setItem(inputText, inputText);
+    // todos.push(inputText);
+    // setTodos((currentTodos) => {
+    //   return [...currentTodos, inputText];
+    // });
+    setTodos([...todos, inputText]); // spread operator 불변성
+    setInputText('');
+  };
+
+  const handleRemove = (todo, index) => {
+    // console.log(todo, index);
+    // todos.splice(index, 1);
+    // console.log(todos);
+    const result = todos.filter((item) => item !== todo);
+    setTodos(result);
+    localStorage.removeItem(todo);
+  };
 
   return (
-    <>
+    <div>
+      <h1>TODO 앱</h1>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input type="text" value={inputText} onChange={handleInput} />
+        <button onClick={handleClick}>Add</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <ul>
+          {todos.map((todo, index) => {
+            return (
+              <li key={index}>
+                <span>{todo}</span>
+                <button onClick={() => handleRemove(todo, index)}>
+                  remove
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   );
 }
 
