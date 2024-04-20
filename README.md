@@ -10,3 +10,9 @@
 ```sh
 npm create vite@latest
 ```
+
+## 사이트 배포와 마무리
+
+- https://app.netlify.com/
+
+- https://6623b2becfeeb5c786a1404a--cansus-todo-app.netlify.app/
