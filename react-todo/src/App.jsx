@@ -20,7 +20,7 @@ function App() {
     setTodos([...todos, todo]); // spread operator 불변성
   };
 
-  const handleRemove = (todo) => {
+  const removeTodo = (todo) => {
     const result = todos.filter((item) => item !== todo);
     setTodos(result);
     localStorage.removeItem(todo);
@@ -30,7 +30,7 @@ function App() {
     <div>
       <TodoHeader />
       <TodoInput onTodoAdd={addTodo} />
-      <TodoList todos={todos} onTodoRemove={handleRemove} />
+      <TodoList todos={todos} onTodoRemove={removeTodo} />
     </div>
   );
 }
